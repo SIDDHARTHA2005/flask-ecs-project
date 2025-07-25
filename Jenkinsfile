@@ -2,6 +2,8 @@ pipeline {
     agent any
 
     environment {
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
         AWS_REGION = 'us-east-1'
         TF_VAR_docker_image = "srisaisiddhartha/flask-ecs-project:latest"
     }
@@ -13,33 +15,25 @@ pipeline {
             }
         }
 
-        stage('Set up Terraform') {
+        stage('Terraform Init') {
             steps {
                 bat 'terraform init'
             }
         }
 
-        stage('Validate Terraform') {
+        stage('Terraform Validate') {
             steps {
                 bat 'terraform validate'
             }
         }
 
-        stage('Plan Infrastructure') {
-            environment {
-                AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-                AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-            }
+        stage('Terraform Plan') {
             steps {
                 bat 'terraform plan -out=tfplan'
             }
         }
 
-        stage('Apply Infrastructure') {
-            environment {
-                AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-                AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-            }
+        stage('Terraform Apply') {
             steps {
                 bat 'terraform apply -auto-approve tfplan'
             }
