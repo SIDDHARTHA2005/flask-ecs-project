@@ -58,8 +58,8 @@ resource "aws_ecs_service" "flask_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = ["subnet-xxxxx"]  # Use your public subnet ID
-    security_groups  = ["sg-xxxxxx"]     # Use your SG with port 5000 open
+    subnets          = ["subnet-071efbeb0d45cea32"]  # Use your public subnet ID
+    security_groups  = ["sg-02e6ae4ef0a46abef"]     # Use your SG with port 5000 open
     assign_public_ip = true
   }
 }
