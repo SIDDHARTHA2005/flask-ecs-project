@@ -21,19 +21,19 @@ pipeline {
 
         stage('Validate Terraform') {
             steps {
-                sh 'terraform validate'
+                bat 'terraform validate'
             }
         }
 
         stage('Plan Infrastructure') {
             steps {
-                sh 'terraform plan -out=tfplan'
+                bat 'terraform plan -out=tfplan'
             }
         }
 
         stage('Apply Infrastructure') {
             steps {
-                sh 'terraform apply -auto-approve tfplan'
+                bat 'terraform apply -auto-approve tfplan'
             }
         }
     }
