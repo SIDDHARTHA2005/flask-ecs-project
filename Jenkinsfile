@@ -26,12 +26,20 @@ pipeline {
         }
 
         stage('Plan Infrastructure') {
+            environment {
+                AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+                AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+            }
             steps {
                 bat 'terraform plan -out=tfplan'
             }
         }
 
         stage('Apply Infrastructure') {
+            environment {
+                AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+                AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+            }
             steps {
                 bat 'terraform apply -auto-approve tfplan'
             }
